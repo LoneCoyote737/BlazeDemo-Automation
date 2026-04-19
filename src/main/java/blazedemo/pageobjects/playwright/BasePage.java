@@ -4,7 +4,7 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 
 /**
- * To be inherited by all playwright page object classes.<br/>
+ * To be inherited by all PlayWright page object classes.<br/>
  * Contains useful {@code Locator} finding functions.
  */
 public class BasePage {
@@ -14,17 +14,29 @@ public class BasePage {
         this.page = page;
     }
 
-    protected Locator locateAriaElement (String elementName, AriaRole role) {
+    public Locator locate(String selector) {
+        return page.locator(selector);
+    }
+    public Locator locateAriaElement (String elementName, AriaRole role) {
         return page.getByRole(role, new Page.GetByRoleOptions().setName(elementName));
     }
-    protected Locator locateButton (String buttonName) {
+    public Locator locateAriaElementExact (String elementName, AriaRole role) {
+        return page.getByRole(role, new Page.GetByRoleOptions().setName(elementName).setExact(true));
+    }
+    public Locator locateButton (String buttonName) {
         return locateAriaElement(buttonName, AriaRole.BUTTON);
     }
-    protected Locator locatedTextbox (String textboxName) {
+    public Locator locateTextbox (String textboxName) {
         return locateAriaElement(textboxName, AriaRole.TEXTBOX);
     }
+    public Locator locateHeading (String headingName) {
+        return locateAriaElement(headingName, AriaRole.HEADING);
+    }
+    public Locator locateCell (String cellName) {
+        return locateAriaElement(cellName, AriaRole.CELL);
+    }
 
-    protected Locator getByText (String text) {
+    public Locator getByText (String text) {
         return page.getByText(text);
     }
 }

@@ -3,9 +3,10 @@ package blazedemo.tests.playwright;
 import com.microsoft.playwright.*;
 import org.testng.annotations.*;
 import java.util.List;
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 /**
- * To be inherited by all playwright Test script classes.<br/>
+ * To be inherited by all PlayWright Test script classes.<br/>
  * Contains the setups that happen before and after a test runs.
  */
 public class BaseTest {
@@ -15,11 +16,9 @@ public class BaseTest {
     protected Page page;
     protected BrowserContext browserContext;
     protected Browser.NewContextOptions newContextOptions;
-    protected String baseUrl;
+    protected String baseUrl = "https://blazedemo.com/";
 
-    public BaseTest (String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
+    public BaseTest () {}
 
     @BeforeSuite(alwaysRun = true)
     public void beforeSuite() {
@@ -46,5 +45,10 @@ public class BaseTest {
     public void afterSuite() {
         browser.close();
         playwright.close();
+    }
+
+    protected void assertLocator(Locator locator) {
+        assertThat(locator).isVisible();
+        System.out.println("locator: " + locator + " is visible");
     }
 }
